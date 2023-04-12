@@ -1,13 +1,10 @@
 fetch("http://localhost:3000/api/products")
-    .then(res => res.json())
+    .then(response => response.json())
     
-    // .then(data => {
-
     .then(function(products){
-        // console.log(data)
-        // return addProducts(data)
-
+        
         for (let i = 0; i < products.length; i++){
+            
         document.querySelector(".items").innerHTML += 
                 `<a href="./product.html?id=${products[i]._id}">
                     <article>
@@ -16,9 +13,10 @@ fetch("http://localhost:3000/api/products")
                         <p class="productDescription">${products[i].description}</p>
                         <p class="productColor">${products[i].colors}</p>
                         <p class="productPrice">${products[i].price} €</p>
-                        </article>
-                        </a>`;
-                    }})
+                    </article>
+                </a>`;
+        }
+    })
     
                     
     .catch(function(error){
@@ -37,10 +35,11 @@ fetch("http://localhost:3000/api/products")
 
 
 
+        // .then(data => {
 
 
-
-
+        // console.log(data)
+        // return addProducts(data)
 
 // function addProducts(donnees) {
 //     const id = donnees[0]._id
