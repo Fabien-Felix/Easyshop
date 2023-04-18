@@ -1,7 +1,7 @@
 
 let params = new URLSearchParams(document.location.search);
 let id = params.get("id");
-console.log({id})                                                        // Id identifié sur la console 
+// console.log({id})                                                        // Id identifié sur la console 
 
 
 async function displayProduct() {                                        // Fonction asynchrone 
@@ -11,21 +11,21 @@ async function displayProduct() {                                        // Fonc
     .then(response => response.json())
 
     .then((products) => {                                                // Fonction "products" + rajouté le concaténation 
-        console.log(products)
+        // console.log(products)
 
         document.querySelector(".item__img").innerHTML +=               
-                `<img src=${products.imageUrl} alt=${products.altTxt}>`
+                `<img src=${products.imageUrl} alt=${products.altTxt}>`;
         
         document.getElementById("title").innerHTML +=
-                `${products.name}`
+                `${products.name}`;
        
         document.getElementById("price").innerHTML +=
-                `${products.price}`
+                `${products.price}`;
         
         document.querySelector(".item__content__description").innerHTML += 
                 `<p id="description">
                     ${products.description}
-                </p>`
+                </p>`;
         
         for (let selectColor of products.colors) {                       // Boucle crée pour la répititon des couleurs
             document.getElementById("colors").innerHTML +=  
@@ -38,23 +38,33 @@ async function displayProduct() {                                        // Fonc
         console.log('erreur est survenue ' + error.message);
     });
 }
-displayProduct()                                                          // Résultat 
+displayProduct();                                                     // Résultat 
 
 
-function getValue () {
+function addValue () {                                        // Boucle crée pour avoir la couleur, le prix et la quantité
     
     const getColor = document.getElementById("colors").value;
     const getPrice = document.getElementById("price").value;
     const getQuantity = document.getElementById("quantity").value;
 
-    const objProduct = [getColor, getPrice, getQuantity];
-    console.log(objProduct);
 
-    let objProductLinea = JSON.stringify(objProduct);
-    window.localStorage.setItem("objProductLinea", objProduct);
+    let ArKanap = localStorage.getItem("ArKanap");            // Crée "localStorage" pour stocker les produits à chaque ajout
+    if (ArKanap === null) {
+        let getKanap = [id, getColor, getPrice, getQuantity];                
+        let JsonKanap = JSON.stringify(getKanap);
+        window.localStorage.setItem("ArKanap", JsonKanap);
+        
+    } else {
+        let parseKanap = JSON.parse(ArKanap);
+        parseKanap.push(id, getColor, getPrice, getQuantity);
+        let JsonParseKanap = JSON.stringify(parseKanap);
+        localStorage.setItem("ArKanap", JsonParseKanap);
+    }
+    // localStorage(clear)   
     console.log(localStorage);
+
 }
-getValue ()
+addValue ();
 
 
 // const button = document.querySelector("#addToCart")
