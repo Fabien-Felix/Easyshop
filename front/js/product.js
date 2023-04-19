@@ -38,7 +38,7 @@ async function displayProduct() {                                        // Fonc
         console.log('erreur est survenue ' + error.message);
     });
 }
-displayProduct();                                                     // Résultat 
+displayProduct();                                                    // Résultat 
 
 
 function addValue () {                                        // Boucle crée pour avoir la couleur, le prix et la quantité
