@@ -1,6 +1,8 @@
-async function displayProduct() {                                       // Fonction asynchrone 
 
-    await fetch("http://localhost:3000/api/products")                   // Api
+//Fontion asynchrone + Api
+async function displayProduct() {                                      
+
+    await fetch("http://localhost:3000/api/products")                   
 
     .then(response => response.json())
     

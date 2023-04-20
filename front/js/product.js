@@ -1,17 +1,19 @@
 
+// Récupére l'id dans l'url
 let params = new URLSearchParams(document.location.search);
 let id = params.get("id");
-// console.log({id})                                                        // Id identifié sur la console 
+// console.log({id})                                                        
 
 
-async function displayProduct() {                                        // Fonction asynchrone 
+async function displayProduct() {                                        
 
-    await fetch("http://localhost:3000/api/products/" + id )             // Api + 
+    await fetch("http://localhost:3000/api/products/" + id )            
     
     .then(response => response.json())
-
-    .then((products) => {                                                // Fonction "products" + rajouté le concaténation 
-        // console.log(products)
+    
+    // Fonction "products" + rajouté le concaténation
+    .then((products) => {                                                 
+       
 
         document.querySelector(".item__img").innerHTML +=               
                 `<img src=${products.imageUrl} alt=${products.altTxt}>`;
@@ -26,11 +28,15 @@ async function displayProduct() {                                        // Fonc
                 `<p id="description">
                     ${products.description}
                 </p>`;
-        
-        for (let selectColor of products.colors) {                       // Boucle crée pour la répititon des couleurs
+
+
+        // Boucle crée pour la répititon des couleurs
+        for (let selectColor of products.colors) {                       
             document.getElementById("colors").innerHTML +=  
                 `<option value=${selectColor}>${selectColor}</option>`;
         }
+
+         // console.log(products)
         
     })
 
@@ -38,17 +44,18 @@ async function displayProduct() {                                        // Fonc
         console.log('erreur est survenue ' + error.message);
     });
 }
-displayProduct();                                                    // Résultat 
+displayProduct();                                                  
 
 
-function addValue () {                                        // Boucle crée pour avoir la couleur, le prix et la quantité
+// Boucle crée pour avoir la couleur, le prix et la quantité
+function addValue () {                                        
     
     const getColor = document.getElementById("colors").value;
     const getPrice = document.getElementById("price").value;
     const getQuantity = document.getElementById("quantity").value;
 
-
-    let ArKanap = localStorage.getItem("ArKanap");            // Crée "localStorage" pour stocker les produits à chaque ajout
+    // Crée "localStorage" pour stocker les produits à chaque ajout
+    let ArKanap = localStorage.getItem("ArKanap");         
     if (ArKanap === null) {
         let getKanap = [id, getColor, getPrice, getQuantity];                
         let JsonKanap = JSON.stringify(getKanap);
@@ -60,14 +67,29 @@ function addValue () {                                        // Boucle crée po
         let JsonParseKanap = JSON.stringify(parseKanap);
         localStorage.setItem("ArKanap", JsonParseKanap);
     }
-    // localStorage(clear)   
-    console.log(localStorage);
+
+    // localStorage.clear()                                     // permet de clear
+    console.log(localStorage);  
+
+
+    let addToCart = document.getElementById("addToCart");
+
+    addToCart.addEventListener("click", function(){
+        event.preventDefault();
+    })
 
 }
 addValue ();
 
 
-// const button = document.querySelector("#addToCart")
-// button.addEventListener("click", (e) => {
-//     const color = document.querySelector("#colors").value 
-// })
+
+
+// const addToCart = document.getElementById("addToCart");
+
+// addToCart.addEventListener("click", () => {
+//     let getcolor = addValue();
+//     let getQuantity = parseInt(addValue());
+//     addToCartHTMLElement(id, getcolor, getQuantity);
+// });
+
+
