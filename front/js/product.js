@@ -73,8 +73,7 @@ function addValue () {
 
 
     let addToCart = document.getElementById("addToCart");
-
-    addToCart.addEventListener("click", function(){
+    addToCart.addEventListener("click", function(event){
         event.preventDefault();
     })
 
@@ -82,6 +81,32 @@ function addValue () {
 addValue ();
 
 
+// =====================    Function compteur produit quantités     ======================== //
+
+
+function countProduct(products, cleanProducts) {
+    let cleanProductsWithCounter = []
+
+    for (const cleanProduct of cleanProducts) {
+        let counter = 0
+        for (const product of products) {
+            if (cleanProduct._id === product._id && cleanProduct.lenses === product.lenses) {
+                counter++;
+            }
+            cleanProduct.counterPrice = product.price * counter
+            cleanProduct.counter = counter
+
+        }
+        cleanProductsWithCounter.push(cleanProduct)
+    }
+
+    return cleanProductsWithCounter
+};
+
+
+
+
+// Bouton d'ajout au panier 
 
 
 // const addToCart = document.getElementById("addToCart");
