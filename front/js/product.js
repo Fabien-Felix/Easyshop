@@ -54,58 +54,86 @@ function addValue () {
     const getPrice = document.getElementById("price").value;
     const getQuantity = document.getElementById("quantity").value;
 
+    let getKanap = [id, getColor, getPrice, getQuantity]; 
+    console.table(getKanap);
+    
     // Crée "localStorage" pour stocker les produits à chaque ajout
-    let ArKanap = localStorage.getItem("ArKanap");         
-    if (ArKanap === null) {
-        let getKanap = [id, getColor, getPrice, getQuantity];                
-        let JsonKanap = JSON.stringify(getKanap);
-        window.localStorage.setItem("ArKanap", JsonKanap);
+
+    // let ArKanap = localStorage.getItem("ArKanap");         
+    // if (ArKanap === null) {
+    //     // let getKanap = [id, getColor, getPrice, getQuantity];  
+    //     let JsonKanap = JSON.stringify(getKanap);
+    //     window.localStorage.setItem("ArKanap", JsonKanap);
         
+    // } else {
+    //     let parseKanap = JSON.parse(ArKanap);
+    //     parseKanap.push(id, getColor, getPrice, getQuantity);
+    //     let JsonParseKanap = JSON.stringify(parseKanap);
+    //     localStorage.setItem("ArKanap", JsonParseKanap);
+    // }
+    
+    //=======================================================//
+    //================== Seceond method =====================//
+
+    let ArKanap = localStorage.getItem("ArKanap");
+    let JsonKanap = JSON.parse(ArKanap);
+
+    if (JsonKanap === null) {
+        // let getKanap = [id, getColor, getPrice, getQuantity];
+        // Creer et ajoute le produit
+        let JsonKanap = [];
+        JsonKanap.push(getKanap);
+
+        JSON.stringify(getKanap);
+        window.localStorage.setItem("ArKanap", JSON.stringify(JsonKanap));
     } else {
         let parseKanap = JSON.parse(ArKanap);
-        parseKanap.push(id, getColor, getPrice, getQuantity);
+        parseKanap.push(getKanap);
         let JsonParseKanap = JSON.stringify(parseKanap);
         localStorage.setItem("ArKanap", JsonParseKanap);
     }
 
+
     // localStorage.clear()                                     // permet de clear
     console.log(localStorage);  
-
-
-    let addToCart = document.getElementById("addToCart");
-    addToCart.addEventListener("click", function(event){
-        event.preventDefault();
-    })
+    JSON.stringify(addValue);
 
 }
-addValue ();
+
+let addToCart = document.getElementById("addToCart");
+addToCart.addEventListener("click", function(event){
+    event.preventDefault();
+    addValue();
+});
+
+
 
 
 // =====================    Function compteur produit quantités     ======================== //
 
 
-function countProduct(products, cleanProducts) {
-    let cleanProductsWithCounter = []
+// function countProduct(products, cleanProducts) {
+//     let cleanProductsWithCounter = []
 
-    for (const cleanProduct of cleanProducts) {
-        let counter = 0
-        for (const product of products) {
-            if (cleanProduct._id === product._id && cleanProduct.lenses === product.lenses) {
-                counter++;
-            }
-            cleanProduct.counterPrice = product.price * counter
-            cleanProduct.counter = counter
+//     for (const cleanProduct of cleanProducts) {
+//         let counter = 0
+//         for (const product of products) {
+//             if (cleanProduct._id === product._id && cleanProduct.lenses === product.lenses) {
+//                 counter++;
+//             }
+//             cleanProduct.counterPrice = product.price * counter
+//             cleanProduct.counter = counter
 
-        }
-        cleanProductsWithCounter.push(cleanProduct)
-    }
+//         }
+//         cleanProductsWithCounter.push(cleanProduct)
+//     }
 
-    return cleanProductsWithCounter
-};
+//     return cleanProductsWithCounter
+// };
 
 
 
-//===Validation ======
+//===Validation ===//
 
 const button = document.querySelector("#addToCart")
 button.addEventListener("click", handleClick)
@@ -121,9 +149,9 @@ function handleClick() {
     console.log(handleClick)
 }
 
-function redirectToCart() {
-    window.location.href = "cart.html"
-}
+// function redirectToCart() {
+//     window.location.href = "cart.html"
+// }
 
  
 
