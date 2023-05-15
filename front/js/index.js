@@ -1,33 +1,30 @@
+//===============================================//
+//================= API url =====================//
 
-//Fontion asynchrone + Api
-async function displayProduct() {                                      
+const apiUrl = 'http://localhost:3000/api/products';
 
-    await fetch("http://localhost:3000/api/products")                   
+// Récupération des données de l'API 
 
-    .then(response => response.json())
-    
-    .then(function(products){                                           // Fonction "products" ajouté
-        
-        for (let i = 0; i < products.length; i++){                      // Création de boucle 
-            
-        document.querySelector(".items").innerHTML +=                   // Id "item" + rajoute de concaténation
-                `<a href="./product.html?id=${products[i]._id}">          
-                       <article>
-                        <img src=${products[i].imageUrl} alt=${products[i].altTxt}>
-                        <h3 class="productName">${products[i].name}</h3>
-                        <p class="productDescription">${products[i].description}</p>
-                        <p class="productColor">${products[i].colors}</p>
-                        <p class="productPrice">${products[i].price} €</p>
+fetch(apiUrl)
+    .then((response) => response.json()
+    .then((product) => {
+        const parser = new DOMParser();
+        const items = document.querySelector('#items');
+
+        for (i = 0; i < product.length; i ++) {
+            let productsItems = 
+                `<a href="./product.html?id=${product[i]._id}">
+                    <article>
+                        <img src="${product[i].imageUrl}" alt="${product[i].altTxt}" />
+                        <h3 class="productName">${product[i].name}</h3>
+                        <p class="productDescription">${product[i].description}</p>
                     </article>
                 </a>`;
+            const displayItems = parser.parseFromString(productsItems, "text/html");
+            items.appendChild(displayItems.body.firstChild);
         }
-    })
-    
-                    
-    .catch(function(error){                                             // Montre une erreur 
-        console.log('erreur est survenue')
-    })
-}
+    }))
 
-displayProduct ()                                                       // Résultat
+    .catch((err) => 
+        document.querySelector('#items').innerText = `Oups ! Il y a eu une erreur lors de l'affichage des produits :(`);
 
