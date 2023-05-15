@@ -31,8 +31,10 @@ async function fetchCart() {
                 const data = await response.json();
                 const parser = new DOMParser();
                     let detailProductItems = 
-                        // Changer la quantité --> Utiliser la fonction changeQty dans l'input avec l'evenement 'onchange'
-                        // Supprimer un article --> Evenement onclick
+                        // Changer la quantité 
+                        //==> Utiliser la fonction changeQty dans l'input avec l'evenement 'onchange'
+                        // Supprimer un article 
+                        //==> Evenement 'onclick'
                         `<article class="cart__item" data-id="${id}" data-color="${color}">
                             <div class="cart__item__img">
                                 <img src="${data.imageUrl}" alt="${data.altTxt}">
@@ -48,7 +50,7 @@ async function fetchCart() {
                                 <div class="cart__item__content__settings">
                                     <div class="cart__item__content__settings__quantity">
                                         <p>Qté : </p>
-                                        <input type="number" class="itemQuantity" name="itemQuantity" onchange="changeQty('${id}', '${color}', '${data.price}', this.value)" min="1" max="100" value="${itemsLocalStorage[i].qty}">
+                                        <input type="number" class="itemQuantity" name="itemQuantity" onchange="changeQty('${id}', '${color}', '${data.price}', this.value)" min="1" max="40" value="${itemsLocalStorage[i].qty}">
                                     </div>
                                 
                                     <div class="cart__item__content__settings__delete">
@@ -95,7 +97,7 @@ const changeQty = (id, color, price, newQty) => {
     localStorage.setItem(`selectedProduct`, JSON.stringify(itemsLocalStorage));
     
     // Si la quantité est inférieur à 1 ou supérieur à 40
-    if (newQty <= 0 || newQty >= 101) {
+    if (newQty <= 0 || newQty >= 41) {
         alert(`La quantité d'un produit doit être entre 1 et 40 !`)
     }
 
@@ -141,8 +143,8 @@ const deleteItem = (id, color, price) => {
             document.querySelector(`#totalPrice`).innerHTML = totalPriceAfter;
 
             if (itemsLocalStorage.length == 0) {
-                document.querySelector(`h1`).innerText = `Votre panier est vide !`;
-                return alert(`Votre panier est vide !`);
+                document.querySelector(`h1`).innerText = `Panier vide !`;
+                return alert(`Panier vide !`);
             }
         }
     }

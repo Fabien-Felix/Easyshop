@@ -74,7 +74,7 @@ function qtyValue() {
             return alert(`Veuillez choisir une couleur`);
         }
 
-        // Si la quantité n'est pas entre 1 et 100 --> Erreur 
+        // Si la quantité n'est pas entre 1 et 40 --> Erreur 
         if (qty <= 0 || qty >= 40) {
             return alert(`Veuillez choisir une quantité entre 1 et 40`)
         }
@@ -105,19 +105,19 @@ function qtyValue() {
         alert(`Produits ajoutés !`);
     }
 
-// Fonction pour récupérer le panier dans le localStorage
-const getCart = () => {   
-    let itemsLocalStorage = [];
-    if (localStorage.getItem(`selectedProduct`) != null) { 
-        itemsLocalStorage = JSON.parse(localStorage.getItem(`selectedProduct`));
-    }
-    return itemsLocalStorage;
-}
+// // Fonction pour récupérer le panier dans le localStorage
+// const getCart = () => {   
+//     let itemsLocalStorage = [];
+//     if (localStorage.getItem(`selectedProduct`) != null) { 
+//         itemsLocalStorage = JSON.parse(localStorage.getItem(`selectedProduct`));
+//     }
+//     return itemsLocalStorage;
+// }
 
 // Bouton d'ajout au panier
 const addToCart = document.querySelector(`#addToCart`);
 
-// Lors du 'click' on écoute la couleur et la quantité du produit sélectionné et si elles sont valides, les ajouter au panier
+// Lors du 'click' on valide la couleur et la quantité du produit sélectionné puis les ajouter au panier
 addToCart.addEventListener(`click`, () => {
     let color = colorValue();
     let qty = parseInt(qtyValue());
