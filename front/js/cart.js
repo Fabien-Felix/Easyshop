@@ -3,7 +3,7 @@
 //============== Modifier les élements du panier =============///
 
 
-async function fetchCart() {
+async function fetCart() {
 
     let itemsLocalStorage = getCart();
     let qtyTotal = 0;
@@ -16,7 +16,7 @@ async function fetchCart() {
             let sectionCart = document.querySelector(`#cart__items`);
             let apiUrl = 'http://localhost:3000/api/products/' + id;
 
-            // Afficher les données du produit avec fetch
+            // Afficher les données du produit
             const response = await fetch(apiUrl);
             if (!response.ok) {
                 let productError = `<article class="cart__item">
@@ -28,33 +28,29 @@ async function fetchCart() {
                 sectionCart.appendChild(displayErrorProductItems.body.firstChild);
             
             } else {
-                const data = await response.json();
+                const product = await response.json();
                 const parser = new DOMParser();
                     let detailProductItems = 
-                        // Changer la quantité 
-                        //==> Utiliser la fonction changeQty dans l'input avec l'evenement 'onchange'
-                        // Supprimer un article 
-                        //==> Evenement 'onclick'
                         `<article class="cart__item" data-id="${id}" data-color="${color}">
                             <div class="cart__item__img">
-                                <img src="${data.imageUrl}" alt="${data.altTxt}">
+                                <img src="${product.imageUrl}" alt="${product.altTxt}">
                             </div>
                             
                             <div class="cart__item__content">
                                 <div class="cart__item__content__description">
-                                    <h2>${data.name}</h2>
+                                    <h2>${product.name}</h2>
                                     <p>Couleur : ${color}</p>
-                                    <p data-id="price-${id}-${color}">Prix : ${data.price} €</p>
+                                    <p data-id="price-${id}-${color}">Prix : ${product.price} €</p>
                                 </div>
                                 
                                 <div class="cart__item__content__settings">
                                     <div class="cart__item__content__settings__quantity">
                                         <p>Qté : </p>
-                                        <input type="number" class="itemQuantity" name="itemQuantity" onchange="changeQty('${id}', '${color}', '${data.price}', this.value)" min="1" max="40" value="${itemsLocalStorage[i].qty}">
+                                        <input type="number" class="itemQuantity" name="itemQuantity" onchange="changeQty('${id}', '${color}', '${product.price}', this.value)" min="1" max="40" value="${itemsLocalStorage[i].qty}">
                                     </div>
                                 
                                     <div class="cart__item__content__settings__delete">
-                                        <p class="deleteItem" onclick="deleteItem('${id}', '${color}', '${data.price}')">Supprimer</p>
+                                        <p class="deleteItem" onclick="deleteItem('${id}', '${color}', '${product.price}')">Supprimer</p>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +59,7 @@ async function fetchCart() {
                     sectionCart.appendChild(displayDetailProductItems.body.firstChild);
                         
                     // Afficher le prix total
-                    priceTotal += data.price * itemsLocalStorage[i].qty;
+                    priceTotal += product.price * itemsLocalStorage[i].qty;
                     document.querySelector('#totalPrice').innerHTML = priceTotal;
 
                     // Afficher la quantité totale
@@ -97,7 +93,7 @@ const changeQty = (id, color, price, newQty) => {
     localStorage.setItem(`selectedProduct`, JSON.stringify(itemsLocalStorage));
     
     // Si la quantité est inférieur à 1 ou supérieur à 40
-    if (newQty <= 0 || newQty >= 41) {
+    if (newQty <= 0 || newQty >= 40) {
         alert(`La quantité d'un produit doit être entre 1 et 40 !`)
     }
 
@@ -115,6 +111,7 @@ const changeQty = (id, color, price, newQty) => {
     
     document.querySelector(`#totalPrice`).innerHTML = totalPriceAfter;
 }
+
 
 // Fonction pour supprimer un produit
 const deleteItem = (id, color, price) => {
@@ -150,66 +147,5 @@ const deleteItem = (id, color, price) => {
     }
 }
 
-fetchCart();
+fetCart();
 
-
-
-
-// async function displayProduct() {
-
-//     await fetch("http://localhost:3000/api/products")
-
-//     .then(response => response.json())
-
-//     .then((products) => {
-        
-//         localStorage.getItem("Arkanap")
-
-//         document.getElementById("cart__items").innerHTML += 
-//                 `<article class="cart__item" data-id="${products._id}" data-color="${products.colors}">
-//                     <div class="cart__item__img">
-//                         <img src="${products.imageUrl}" alt="${products.altTxt}">
-//                     </div>
-//                     <div class="cart__item__content">
-//                         <div class="cart__item__content__description">
-//                             <h2>"${products.name}"</h2> 
-//                             <p>"${products.colors}"</p>
-//                             <p>"${products.price}"</p>
-//                         </div>
-//                         <div class="cart__item__content__settings">
-//                             <div class="cart__item__content__settings__quantity">
-//                                 <p>Qté : </p>
-//                                 <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="40" value="${products.quantity}">
-//                             </div>
-//                             <div class="cart__item__content__settings__delete">
-//                                 <p class="deleteItem">Supprimer</p>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </article>`
-//     }) 
-// }
-
-
-
-// =====================    Function compteur produit quantités     ======================== //
-
-
-// function countProduct(products, cleanProducts) {
-//     let cleanProductsWithCounter = []
-
-//     for (const cleanProduct of cleanProducts) {
-//         let counter = 0
-//         for (const product of products) {
-//             if (cleanProduct._id === product._id && cleanProduct.lenses === product.lenses) {
-//                 counter++;
-//             }
-//             cleanProduct.counterPrice = product.price * counter
-//             cleanProduct.counter = counter
-
-//         }
-//         cleanProductsWithCounter.push(cleanProduct)
-//     }
-
-//     return cleanProductsWithCounter
-// };
